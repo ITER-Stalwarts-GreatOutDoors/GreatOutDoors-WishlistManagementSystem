@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import com.cg.iter.dto.WishlistDTO;
 import com.cg.iter.exception.WishlistException;
 import com.cg.iter.service.WishlistService;
-
+//this is a restcontroller
 @RestController
 @RequestMapping("/wishlist")
 public class WishlistMS {
@@ -20,6 +20,7 @@ public class WishlistMS {
 	@Autowired
 	WishlistService service;
 	
+	@SuppressWarnings("finally")
 	@PostMapping("/addToWishlist")
 	public String addToWishlist(@RequestBody WishlistDTO addItem) {
 		String status= "Added to wishlist";

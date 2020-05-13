@@ -11,7 +11,7 @@ public interface WishlistService {
 
 	List<WishlistDTO> viewAllItems();
 
-	boolean deleteProduct(String productId);
+	boolean deleteProduct(WishlistDTO removeItem)throws WishlistException;
 
 	
 

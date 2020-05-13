@@ -9,7 +9,9 @@ public interface WishlistService {
 	
 	boolean addToWishlist(WishlistDTO addItem) throws WishlistException;
 
-	List<WishlistDTO> getAllItems();
+	List<WishlistDTO> viewAllItems();
+
+	boolean deleteProduct(String productId);
 
 	
 

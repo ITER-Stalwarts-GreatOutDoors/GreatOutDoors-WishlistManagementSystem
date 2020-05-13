@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -42,10 +43,19 @@ public class WishlistMS {
                 }
 		}
 	
-	@GetMapping("/getAll")
-	public List<WishlistDTO> getAllItems() throws WishlistException {
+	@PostMapping("/deleteProduct")
+	String deleteProduct(@RequestParam String productId) {
+		if(service.deleteProduct(productId)) {
+			return "product deleted!";
+		}
+		return "error";
+	}
 	
-		List<WishlistDTO> list = service.getAllItems();
+	
+	@GetMapping("/viewAll")
+	public List<WishlistDTO> viewAllItems() throws WishlistException {
+	
+		List<WishlistDTO> list = service.viewAllItems();
 		return list;
 	}
 

@@ -23,10 +23,16 @@ public class WishlistServiceImpl implements WishlistService {
 	}
 
 	@Override
-	public List<WishlistDTO> getAllItems() {
+	public List<WishlistDTO> viewAllItems() {
 		List<WishlistDTO> list = new ArrayList<>();
 	//	repository.findAll().forEach(i -> list.add(i));
 		return (List<WishlistDTO>) repository.findAll();
+	}
+	
+	@Override
+	public boolean deleteProduct(String productId) {
+		repository.deleteById(productId);
+		return true;
 	}
 
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.cg.iter.dto.ProductDTO;
 import com.cg.iter.dto.WishlistDTO;
 import com.cg.iter.exception.NullParameterException;
 import com.cg.iter.exception.WishlistException;
@@ -28,7 +29,7 @@ public class WishlistMS {
 	@Autowired
 	WishlistService service;
 	
-	@SuppressWarnings("finally")
+
 	@PostMapping("/addToWishlist")
 	public String addToWishlist(@RequestBody WishlistDTO addItem) throws WishlistException {
 		
@@ -59,10 +60,15 @@ public class WishlistMS {
 		
 	
 	
-	@GetMapping("/viewAll")
-	public List<WishlistDTO> viewAllItems() throws WishlistException{
-		List<WishlistDTO> list = service.viewAllItems();
-		return list;
+//	@GetMapping("/viewAll")
+//	public List<WishlistDTO> viewAllItems() throws WishlistException{
+//		List<WishlistDTO> list = service.viewAllItems();
+//		return list;
+//	}
+	
+	@GetMapping("/viewAllProducts")
+	List<ProductDTO> viewAllProductFromWishList(){
+		return service.viewAllProductFromWishList();
 	}
 
 		

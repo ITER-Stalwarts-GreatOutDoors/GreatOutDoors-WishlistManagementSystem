@@ -16,7 +16,7 @@ public interface WishlistService {
 
 	List<ProductDTO> viewAllProductFromWishList();
 
-	
+
 
 	
 

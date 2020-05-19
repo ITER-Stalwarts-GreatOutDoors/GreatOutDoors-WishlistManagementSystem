@@ -73,8 +73,9 @@ public class WishlistServiceImpl implements WishlistService {
 		
 		return true;
 	}
-
+	
 	@Override
+	
 	public List<ProductDTO> viewAllProductFromWishList() {
 		List<WishlistDTO> listWishListItems = (List<WishlistDTO>) repository.findAll();
 		List<ProductDTO> listProducts = new ArrayList<>();
@@ -91,5 +92,8 @@ public class WishlistServiceImpl implements WishlistService {
 		}
 		return listProducts;
 	}
+
+
+
 
 }

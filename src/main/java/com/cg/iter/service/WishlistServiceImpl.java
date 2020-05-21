@@ -7,6 +7,7 @@ import java.util.List;
 
 
 import org.apache.log4j.Logger;
+import org.aspectj.apache.bcel.ExceptionConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.RecoverableDataAccessException;
 import org.springframework.dao.TransientDataAccessException;
@@ -16,12 +17,13 @@ import org.springframework.web.client.RestTemplate;
 import com.cg.iter.dto.ProductDTO;
 import com.cg.iter.dto.WishlistDTO;
 import com.cg.iter.exception.CrudException;
-import com.cg.iter.exception.WishlistException;
+
+import com.cg.iter.exception.ProductNotFoundException;
 import com.cg.iter.repository.WishlistRepository;
 @Service
 public class WishlistServiceImpl implements WishlistService {
 	
-	private Logger logger = Logger.getLogger(WishlistServiceImpl.class);
+
 	
 	@Autowired
 	RestTemplate rest;
@@ -33,8 +35,12 @@ public class WishlistServiceImpl implements WishlistService {
 	@Autowired
 	WishlistRepository repository;
 
+	/*
+	 * name - add to wishlist
+	 * description - It will add an item to the wishlist.
+	 */
 	@Override
-	public boolean addToWishlist(WishlistDTO addItem) throws WishlistException{
+	public boolean addToWishlist(WishlistDTO addItem) {
 		try {
 		repository.save(addItem);
 		
@@ -46,7 +52,9 @@ public class WishlistServiceImpl implements WishlistService {
 		} catch (TransientDataAccessException e) {
 			
 			throw new CrudException(transientDataAccessException);
+			
 		}
+		
 		return true;
 	}
 
@@ -56,9 +64,13 @@ public class WishlistServiceImpl implements WishlistService {
 	//	repository.findAll().forEach(i -> list.add(i));
 		return (List<WishlistDTO>) repository.findAll();
 	}
+	/*
+	 * name - delete item from the wishlist
+	 * description - it will delete available item from the wishlist
+	 */
 	
 	@Override
-	public boolean deleteProduct(WishlistDTO removeItem) throws WishlistException{
+	public boolean deleteProduct(WishlistDTO removeItem) {
 		try {
 		repository.delete(removeItem);
 } catch (RecoverableDataAccessException  e) {
@@ -70,10 +82,13 @@ public class WishlistServiceImpl implements WishlistService {
 			throw new CrudException(transientDataAccessException);
 			
 		}
-		
+	
 		return true;
 	}
-	
+	 /*
+     * showProductsFromWishlist
+     * descriptio:shows all products in the wishlist
+     */
 	@Override
 	
 	public List<ProductDTO> viewAllProductFromWishList() {

@@ -14,7 +14,9 @@ import org.springframework.web.client.RestTemplate;
 import com.cg.iter.dto.ProductDTO;
 import com.cg.iter.dto.WishlistDTO;
 import com.cg.iter.exception.NullParameterException;
-import com.cg.iter.exception.WishlistException;
+
+import io.swagger.annotations.ApiOperation;
+
 import com.cg.iter.service.WishlistService;
 //this is a restcontroller
 @RestController
@@ -29,9 +31,15 @@ public class WishlistMS {
 	@Autowired
 	WishlistService service;
 	
+	
+	@ApiOperation(
+			value = "Add products to wishlist",
+			notes = " can add product to wishlist with this API",
+			response = String.class
+			)
 
 	@PostMapping("/addToWishlist")
-	public String addToWishlist(@RequestBody WishlistDTO addItem) throws WishlistException {
+	public String addToWishlist(@RequestBody WishlistDTO addItem) {
 		
 		if(addItem==null || addItem.getUserId()==null ||addItem.getProductId()==null) { 
 			logger.error("Null request, Wishlist details not provided at /addItemToCart");
@@ -43,13 +51,19 @@ public class WishlistMS {
 		
                
 		}
+	@ApiOperation(
+			value = "Remove product from wishlist",
+			notes = "can remove product from wishlist with this API",
+			response = String.class
+			)
 	
 	@PostMapping("/deleteProduct")
-	String deleteProduct(@RequestBody WishlistDTO removeItem ) throws WishlistException {
+	String deleteProduct(@RequestBody WishlistDTO removeItem )  {
 		
 		if(removeItem==null || removeItem.getUserId()==null ||removeItem.getProductId()==null  ) { 
 			logger.error("Null request, cart details are not provided at /removeFromCart");
 			throw new NullParameterException("Null request, please provide cart details to remove iteam from cart!");
+			
 		}
 		
 		String status= "Removed item";
@@ -60,14 +74,21 @@ public class WishlistMS {
 		
 	
 	
-//	@GetMapping("/viewAll")
-//	public List<WishlistDTO> viewAllItems() throws WishlistException{
-//		List<WishlistDTO> list = service.viewAllItems();
-//		return list;
-//	}
+	@GetMapping("/viewAll")
+	public List<WishlistDTO> viewAllItems() {
+		List<WishlistDTO> list = service.viewAllItems();
+		return list;
+	}
+	
+	@ApiOperation(
+			value = "View all products",
+			notes = " can view all products in the cart with this API",
+			response = List.class
+			)
 	
 	@GetMapping("/viewAllProducts")
-	List<ProductDTO> viewAllProductFromWishList(){
+	
+	public List<ProductDTO> viewAllProductFromWishList() {
 		return service.viewAllProductFromWishList();
 	}
 

@@ -6,34 +6,22 @@ import java.util.List;
 
 
 
-import org.apache.log4j.Logger;
-import org.aspectj.apache.bcel.ExceptionConstants;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.RecoverableDataAccessException;
-import org.springframework.dao.TransientDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.cg.iter.dto.ProductDTO;
 import com.cg.iter.dto.WishlistDTO;
 import com.cg.iter.exception.CrudException;
-
-import com.cg.iter.exception.ProductNotFoundException;
 import com.cg.iter.repository.WishlistRepository;
 @Service
 public class WishlistServiceImpl implements WishlistService {
-	
-
-	
 	@Autowired
-	RestTemplate rest;
-	
-	private String productURL = "http://product-ms/product";
-	
-	private String dataAccessException = "distributed transaction exception!";
-	private String transientDataAccessException = "database timeout! exception!";
+	RestTemplate restTemplate;
 	@Autowired
 	WishlistRepository repository;
+	
+	private String productURL = "http://product-ms/product";
 
 	/*
 	 * name - add to wishlist
@@ -41,28 +29,10 @@ public class WishlistServiceImpl implements WishlistService {
 	 */
 	@Override
 	public boolean addToWishlist(WishlistDTO addItem) {
-		try {
-		repository.save(addItem);
 		
-         } catch (RecoverableDataAccessException  e) {
-			
-		
-			throw new CrudException(dataAccessException);
-		
-		} catch (TransientDataAccessException e) {
-			
-			throw new CrudException(transientDataAccessException);
-			
-		}
+		repository.save(addItem);	
 		
 		return true;
-	}
-
-	@Override
-	public List<WishlistDTO> viewAllItems() {
-		List<WishlistDTO> list = new ArrayList<>();
-	//	repository.findAll().forEach(i -> list.add(i));
-		return (List<WishlistDTO>) repository.findAll();
 	}
 	/*
 	 * name - delete item from the wishlist
@@ -71,19 +41,17 @@ public class WishlistServiceImpl implements WishlistService {
 	
 	@Override
 	public boolean deleteProduct(WishlistDTO removeItem) {
-		try {
+		
 		repository.delete(removeItem);
-} catch (RecoverableDataAccessException  e) {
-			
-			throw new CrudException(dataAccessException);
-			
-		} catch (TransientDataAccessException e) {
-			
-			throw new CrudException(transientDataAccessException);
-			
-		}
-	
+
 		return true;
+	}
+	
+	@Override
+	public List<WishlistDTO> viewAllItems() {
+		if(repository.count()==0) throw new CrudException("Please add something to wishlist");
+		List<WishlistDTO> list = new ArrayList<>();
+		return (List<WishlistDTO>) repository.findAll();
 	}
 	 /*
      * showProductsFromWishlist
@@ -92,6 +60,7 @@ public class WishlistServiceImpl implements WishlistService {
 	@Override
 	
 	public List<ProductDTO> viewAllProductFromWishList() {
+		if(repository.count()==0) throw new CrudException("Please add items to wishlist");
 		List<WishlistDTO> listWishListItems = (List<WishlistDTO>) repository.findAll();
 		List<ProductDTO> listProducts = new ArrayList<>();
 		
@@ -99,7 +68,7 @@ public class WishlistServiceImpl implements WishlistService {
 		int index = 0;
 		
 		while (itr.hasNext()) {
-			ProductDTO product = rest.getForObject(productURL+"/getProductById?productId="+listWishListItems.get(index).getProductId(),
+			ProductDTO product = restTemplate.getForObject(productURL+"/getProductById?productId="+listWishListItems.get(index).getProductId(),
 					ProductDTO.class);
 			listProducts.add(product);
 			index++;

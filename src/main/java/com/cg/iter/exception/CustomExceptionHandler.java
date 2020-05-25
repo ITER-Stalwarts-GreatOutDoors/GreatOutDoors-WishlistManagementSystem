@@ -1,5 +1,4 @@
 package com.cg.iter.exception;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	private long currentTimeMillis = System.currentTimeMillis();
-	private String errorMsg = "Some thing went wrong!";
+	private String errorMsg = "Something went wrong!";
 	
 	
 	@ExceptionHandler(Exception.class)
@@ -25,27 +24,19 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 				new HttpHeaders(),HttpStatus.BAD_REQUEST);
 		
 	}
-//	@ExceptionHandler(ProductNotFoundException.class)
-//	public final ResponseEntity<ErrorMessage> productNotFound(ProductNotFoundException ex){
-//
-//		ErrorMessage exceptionResponse =
-//				new ErrorMessage(ex.getMessage(), 
-//						errorMsg,currentTimeMillis);
-//		return new ResponseEntity<ErrorMessage>(exceptionResponse,
-//				new HttpHeaders(),HttpStatus.NOT_FOUND);
-//	}
-	@ExceptionHandler(CrudException.class)
-	public final ResponseEntity<ErrorMessage> crudException(CrudException ex){
+	
+	@ExceptionHandler(NullParameterException.class)
+	public final ResponseEntity<ErrorMessage> nullParameter(NullParameterException ex){
 
 		ErrorMessage exceptionResponse =
 				new ErrorMessage(ex.getMessage(), 
-						errorMsg,currentTimeMillis);
+					errorMsg,currentTimeMillis);
 		return new ResponseEntity<ErrorMessage>(exceptionResponse,
 				new HttpHeaders(),HttpStatus.NOT_FOUND);
 	}
 	
-	@ExceptionHandler(NullParameterException.class)
-	public final ResponseEntity<ErrorMessage> nullParameter(NullParameterException ex){
+	@ExceptionHandler(CrudException.class)
+	public final ResponseEntity<ErrorMessage> crudException(CrudException ex){
 
 		ErrorMessage exceptionResponse =
 				new ErrorMessage(ex.getMessage(), 
@@ -63,10 +54,10 @@ class ErrorMessage{
 	public ErrorMessage() {}
 	
 	
-	
+
 	public ErrorMessage(String message, String details, long timestamp) {
-		super();
-		this.message = message;
+	super();
+	this.message = message;
 		this.details = details;
 		this.timestamp = timestamp;
 	}
@@ -75,7 +66,7 @@ class ErrorMessage{
 
 	public String getMessage() {
 		return message;
-	}
+}
 	
 	public void setMessage(String message) {
 		this.message = message;
@@ -88,7 +79,6 @@ class ErrorMessage{
 	public void setDetails(String details) {
 		this.details = details;
 	}
-
 
 
 	public long getTimestamp() {

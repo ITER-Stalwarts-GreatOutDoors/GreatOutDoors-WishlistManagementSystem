@@ -1,6 +1,5 @@
 package com.cg.iter.exception;
 
-
 @SuppressWarnings("serial")
 public class CrudException extends RuntimeException{
 

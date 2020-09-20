@@ -14,7 +14,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableEurekaClient
-@EnableSwagger2
 public class WishlistMsApplication {
 	
 	@Bean
@@ -27,9 +26,4 @@ public class WishlistMsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(WishlistMsApplication.class, args);
 	}
-	 @Bean
-	   public Docket productApi() {
-	      return new Docket(DocumentationType.SWAGGER_2).select()
-	         .apis(RequestHandlerSelectors.basePackage("com.cg.iter")).build();
-	   }
 }

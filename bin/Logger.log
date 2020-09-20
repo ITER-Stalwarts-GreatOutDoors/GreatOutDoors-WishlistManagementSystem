@@ -1,0 +1,6 @@
+2020-05-23 12:26:44 ERROR WishlistMS:64 - Null request, wishlist details are not provided at /deleteProduct
+  2020-05-23 17:55:33 ERROR WishlistMS:45 - Null request, Wishlist details not provided at /addToWishlist
+  2020-05-24 18:11:17 ERROR WishlistMS:38 - Null request, Wishlist details not provided at /addToWishlist
+  2020-05-24 18:14:50 ERROR WishlistMS:38 - Null request, Wishlist details not provided at /addToWishlist
+  2020-05-24 18:15:34 ERROR WishlistMS:38 - Null request, Wishlist details not provided at /addToWishlist
+  
